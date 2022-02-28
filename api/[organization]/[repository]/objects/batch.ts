@@ -4,6 +4,29 @@ import { hasRepositoryAccess } from "../_authenticate";
 import { validateBatchRequest } from "../_schemas";
 import { getUriForDownload, getUriForUpload } from "../_storage";
 
+const read = async (req: VercelRequest): Promise<string> => {
+  const body: Uint8Array[] = [];
+
+  return new Promise((resolve, reject) => {
+    req.on("data", (chunk) => {
+      body.push(chunk);
+    });
+
+    req.on("end", () => {
+      const json = Buffer.concat(body).toString();
+      try {
+        resolve(JSON.parse(json));
+      } catch (err) {
+        reject(err);
+      }
+    });
+
+    req.on("error", () => {
+      reject();
+    });
+  });
+};
+
 const uploadObjects = (
   objects: { oid: string; size: number }[],
   prefix: string
@@ -22,7 +45,7 @@ const uploadObjects = (
             headers: o.headers,
           },
         },
-        error: undefined,
+        error: null,
       };
     })
   );
@@ -78,13 +101,15 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     return;
   }
 
-  const [username, password] = Buffer.from(authentication, "base64")
+  const [username, password] = Buffer.from(
+    authentication.substring("Basic ".length).trim(),
+    "base64"
+  )
     .toString()
     .split(":");
 
-  console.log(req);
-
-  const json = validateBatchRequest(req.body);
+  const body = await read(req);
+  const json = validateBatchRequest(body);
   const permissions = json.operation === "upload" ? ["push"] : ["pull"];
   const hasPermission = await hasRepositoryAccess(
     organization as string,
@@ -96,28 +121,31 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
 
   if (!hasPermission) {
     res
-      .status(401)
+      .status(400)
       .send(
         `user ${username} does not have ${permissions} access to ${organization}/${repository}`
       );
+    return;
   }
 
   const prefix = `${organization}/${repository}`;
 
   if (json.operation === "upload") {
-    res.status(200).json({
+    const response = {
       transfer: "basic",
-      objects: uploadObjects(json.objects, prefix),
-    });
+      objects: await uploadObjects(json.objects, prefix),
+    };
+    res.status(200).json(response);
 
     return;
   }
 
   if (json.operation === "download") {
-    res.status(200).json({
+    const response = {
       transfer: "basic",
-      objects: downloadObjects(json.objects, prefix),
-    });
+      objects: await downloadObjects(json.objects, prefix),
+    };
+    res.status(200).json(response);
   }
 };
 

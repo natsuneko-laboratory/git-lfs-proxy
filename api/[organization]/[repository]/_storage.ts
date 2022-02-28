@@ -45,12 +45,12 @@ const getUriForDownload = async (oid: string, prefix: string) => {
   try {
     const command = new GetObjectAttributesCommand({
       Bucket: bucket,
-      Key: oid,
+      Key: `${prefix}/${oid}`,
       ObjectAttributes: undefined,
     });
     const response = await client.send(command);
     return {
-      uri: getPresignedUrl(`${prefix}/${oid}`, "GET"),
+      uri: await getPresignedUrl(`${prefix}/${oid}`, "GET"),
       expiry,
       size: response.ObjectSize,
     };
@@ -59,11 +59,10 @@ const getUriForDownload = async (oid: string, prefix: string) => {
   }
 };
 
-const getUriForUpload = (oid: string, prefix: string) =>
-  Promise.resolve({
-    uri: getPresignedUrl(`${prefix}/${oid}`, "PUT"),
-    expiry,
-    headers: { "Content-Type": "application/octet-stream" },
-  });
+const getUriForUpload = async (oid: string, prefix: string) => ({
+  uri: await getPresignedUrl(`${prefix}/${oid}`, "PUT"),
+  expiry,
+  headers: { "Content-Type": "application/octet-stream" },
+});
 
 export { getUriForDownload, getUriForUpload };
