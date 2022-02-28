@@ -82,6 +82,8 @@ const handler = async (req: VercelRequest, res: VercelResponse) => {
     .toString()
     .split(":");
 
+  console.log(req);
+
   const json = validateBatchRequest(req.body);
   const permissions = json.operation === "upload" ? ["push"] : ["pull"];
   const hasPermission = await hasRepositoryAccess(

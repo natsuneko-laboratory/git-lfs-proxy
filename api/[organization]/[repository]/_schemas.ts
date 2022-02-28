@@ -42,7 +42,6 @@ const BATCH_SCHEMA: JSONSchemaType<BatchSchema> = {
 } as const;
 
 const validateBatchRequest = (json: any) => {
-  console.log(json);
   const valid = ajv.validate(BATCH_SCHEMA, json);
   if (!valid) {
     throw new Error(ajv.errorsText());
