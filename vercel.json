@@ -1,5 +1,5 @@
 {
   "redirects": [
-    { "source": "/:path*", "destination": "/api/:path*" }
+    { "source": "/:path((?!api/).*)", "destination": "/api/:path*" }
   ]
 }
