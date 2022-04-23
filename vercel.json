@@ -1,5 +1,10 @@
 {
   "rewrites": [
     { "source": "/:path((?!api/).*)", "destination": "/api/:path*" }
-  ]
+  ],
+  "functions": {
+    "api/*.ts": {
+      "memory": 3008
+    }
+  }
 }
