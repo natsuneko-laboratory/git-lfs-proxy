@@ -1,5 +1,4 @@
 import {
-  GetObjectAttributesCommand,
   GetObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -41,23 +40,11 @@ const getPresignedUrl = async (oid: string, verb: "GET" | "PUT") => {
   throw new Error("not supported verb");
 };
 
-const getUriForDownload = async (oid: string, prefix: string) => {
-  try {
-    const command = new GetObjectAttributesCommand({
-      Bucket: bucket,
-      Key: `${prefix}/${oid}`,
-      ObjectAttributes: undefined,
-    });
-    const response = await client.send(command);
-    return {
-      uri: await getPresignedUrl(`${prefix}/${oid}`, "GET"),
-      expiry,
-      size: response.ObjectSize,
-    };
-  } catch (err) {
-    return { err };
-  }
-};
+const getUriForDownload = async (oid: string, prefix: string) => ({
+  uri: await getPresignedUrl(`${prefix}/${oid}`, "GET"),
+  expiry,
+  size: undefined,
+});
 
 const getUriForUpload = async (oid: string, prefix: string) => ({
   uri: await getPresignedUrl(`${prefix}/${oid}`, "PUT"),
