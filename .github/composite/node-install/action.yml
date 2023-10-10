@@ -1,0 +1,33 @@
+name: "Install Node.js with dependencies"
+description: ""
+runs:
+  using: composite
+  steps:
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: ".node-version"
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
+
+    - name: Fetch cache directory
+      id: pnpm-install-cache
+      shell: bash
+      run: |
+        echo "dir=$(pnpm store path)" >> $GITHUB_OUTPUT
+
+    - name: Restore caches
+      uses: actions/cache@v3
+      with:
+        path: ${{ steps.pnpm-install-cache.outputs.dir }}
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
+    - name: Install dependencies
+      shell: bash
+      run: pnpm install --frozen-lockfile

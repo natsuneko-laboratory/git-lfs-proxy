@@ -1,0 +1,34 @@
+name: Code Quality for JavaScript
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+    paths:
+      - "**.js"
+      - "**.ts"
+      - "**.tsx"
+      - "pnpm-lock.yaml"
+
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - uses: ./.github/composite/node-install
+
+      - name: Run ESLint
+        run: pnpm run eslint ./src
+
+      - name: Run Prettier
+        if: always()
+        run: pnpm run prettier ./src --check

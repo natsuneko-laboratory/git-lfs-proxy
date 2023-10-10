@@ -8,7 +8,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "eslint": "eslint",
+    "prettier": "prettier"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.12.1",
@@ -29,5 +31,8 @@
     "@octokit/auth-token": "^3.0.2",
     "@octokit/rest": "^18.12.0",
     "ajv": "^8.10.0"
+  },
+  "volta": {
+    "node": "18.18.0"
   }
 }
