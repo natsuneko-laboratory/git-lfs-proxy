@@ -1,14 +1,34 @@
-# git-lfs-proxy
+# Dairi: Self-Hosted Git LFS Proxy
 
-Git LFS Proxy on Vercel Serverless Function.
+Dairi - _**\[代理\] means proxy in Japanese**_ - is a small, simple, and customizable Git LFS Proxy for the Edges.  
+It works on Serverless Edge Platforms such as Cloudflare Workers, Deno, Vercel, AWS Lambda, Lambda@Edge, and Node.js.
 
-## Environment Variables
+```typescript
+// app/api/[...route]/route.ts
+import { Dairi } from "dairi";
+import { vercel } from "@dairi/platform-vercel";
 
-| Variable Name              | Description                   |
-| -------------------------- | ----------------------------- |
-| `AWS_S3_ACCESS_KEY_ID`     | AWS Access Key ID             |
-| `AWS_S3_SECRET_ACCESS_KEY` | AWS Secret Access Key         |
-| `AWS_S3_BUCKET`            | The S3 bucket name            |
-| `AWS_S3_ENDPOINT`          | The S3 endpoint               |
-| `AWS_S3_REGION`            | The S3 region                 |
-| `AWS_S3_SIGN_EXPIRE`       | The S3 sign expire in seconds |
+const app = new Dairi({ basePath: "/api" });
+
+export const GET = vercel.get(app);
+export const POST = vercel.post(app);
+
+export const config = {
+  runtime: "edge",
+};
+```
+
+## Packages
+
+| package                              | description                                                          |
+| ------------------------------------ | -------------------------------------------------------------------- |
+| `dairi`                              | Application Entrypoint                                               |
+| `@dairi/core`                        | Dairi Core Package                                                   |
+| **Storage**                          |                                                                      |
+| `@dairi/storage-s3`                  | LFS Storage for Amazon S3 (or compatible)                            |
+| **Platform**                         |                                                                      |
+| `@dairi/platform-vercel`             | Dairi for Vercel                                                     |
+
+## License
+
+MIT by [@6jz](https://twitter.com/6jz)

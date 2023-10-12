@@ -1,0 +1,33 @@
+{
+  "name": "@dairi/platform-vercel",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Natsune Mochizuki <me@natsuneko.cat> (https://natsuneko.cat)",
+  "type": "module",
+  "exports": {
+    "import": "./dist/index.js",
+    "types": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tsc": "tsc"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "hono": "^3.7.5"
+  },
+  "peerDependencies": {
+    "@dairi/core": "workspace:^"
+  },
+  "devDependencies": {
+    "@dairi/core": "workspace:^",
+    "@dairi/eslint-config": "workspace:^",
+    "@dairi/tsconfig": "workspace:^",
+    "typescript": "^5.2.2"
+  },
+  "keywords": [],
+  "publishConfig": {
+    "access": "public"
+  }
+}

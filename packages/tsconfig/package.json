@@ -1,0 +1,16 @@
+{
+  "name": "@dairi/tsconfig",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@tsconfig/node18": "^18.2.2",
+    "@tsconfig/strictest": "^2.0.2"
+  }
+}

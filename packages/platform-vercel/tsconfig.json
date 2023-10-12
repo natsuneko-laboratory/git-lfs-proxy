@@ -1,0 +1,6 @@
+{
+  "extends": "@dairi/tsconfig",
+  "compilerOptions": {
+    "moduleResolution": "Node16"
+  }
+}
