@@ -24,6 +24,8 @@ export const config = {
 | ------------------------------------ | -------------------------------------------------------------------- |
 | `dairi`                              | Application Entrypoint                                               |
 | `@dairi/core`                        | Dairi Core Package                                                   |
+| **Storage**                          |                                                                      |
+| `@dairi/storage-s3`                  | LFS Storage for Amazon S3 (or compatible)                            |
 | **Platform**                         |                                                                      |
 | `@dairi/platform-vercel`             | Dairi for Vercel                                                     |
 
