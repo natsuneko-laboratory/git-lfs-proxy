@@ -18,6 +18,15 @@ export const config = {
 };
 ```
 
+## Packages
+
+| package                              | description                                                          |
+| ------------------------------------ | -------------------------------------------------------------------- |
+| `dairi`                              | Application Entrypoint                                               |
+| `@dairi/core`                        | Dairi Core Package                                                   |
+| **Platform**                         |                                                                      |
+| `@dairi/platform-vercel`             | Dairi for Vercel                                                     |
+
 ## License
 
 MIT by [@6jz](https://twitter.com/6jz)
