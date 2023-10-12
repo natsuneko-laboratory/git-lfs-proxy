@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tsconfig/node18": "^18.2.2"
+    "@tsconfig/node18": "^18.2.2",
+    "@tsconfig/strictest": "^2.0.2"
   }
 }
